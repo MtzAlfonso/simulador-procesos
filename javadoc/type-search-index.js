@@ -1,0 +1,1 @@
+typeSearchIndex = [{"p":"simulador","l":"Administrador"},{"l":"All Classes","url":"allclasses-index.html"},{"p":"simulador","l":"Main"},{"p":"simulador","l":"Memoria"},{"p":"simulador","l":"Proceso"}]
