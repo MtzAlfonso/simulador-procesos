@@ -160,6 +160,7 @@ public class Administrador {
     public void omitirProcesoActual() {
         if (this.colaProcesos.size() != 0) {
             Proceso p = this.colaProcesos.poll();
+            System.out.println("\nOmitiendo proceso " + p.getNombre());
             this.colaProcesos.add(p);
         } else {
             System.out.println("\nNo hay procesos en espera");
@@ -173,6 +174,8 @@ public class Administrador {
     public void matarProcesoActual() {
         try {
             Proceso p = this.colaProcesos.poll();
+            System.out.println("\nMatando proceso " + p.getNombre());
+            System.out.println("Se liberaron " + p.getEspacio() + " localidades de memoria");
             this.memoria.liberarMemoria(p);
             this.procesosEliminados.add(p);
         } catch (Exception e) {
