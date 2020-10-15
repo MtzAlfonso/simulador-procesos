@@ -56,7 +56,7 @@ public class Administrador {
             System.out.print("\nNombre del proceso: ");
             this.addProcess(new Proceso(sc.next(), id++, n));
         } else {
-            System.out.println("\nNo hay memoria disponible");
+            System.out.println("\nNo hay memoria suficiente");
             System.out.println("Memoria requerida:\t" + n);
             System.out.println("Memoria disponible:\t" + this.memoria.memoriaDisponible);
             System.out.println("Libere memoria ejecutando o matando procesos");
@@ -78,13 +78,13 @@ public class Administrador {
      * Imprime en pantalla la información de los procesos listos.
      */
     public void verEstadoActual() {
-        System.out.println("\nProcesos listos:\t" + this.colaProcesos.size());
-        System.out.println("Procesos finalizados antes de tiempo:\t" + this.procesosEliminados.size());
-        for (Proceso p : procesosEliminados) {
+        System.out.println("\nProcesos en espera de ser ejecutados:\t" + this.colaProcesos.size());
+        System.out.println("Procesos terminados exitosamente:\t\t" + this.terminadosConExito.size());
+        for (Proceso p : terminadosConExito) {
             System.out.println("\t" + p.getNombre());
         }
-        System.out.println("Procesos terminados con éxito:\t" + this.terminadosConExito.size());
-        for (Proceso p : terminadosConExito) {
+        System.out.println("Procesos terminados antes de tiempo:\t" + this.procesosEliminados.size());
+        for (Proceso p : procesosEliminados) {
             System.out.println("\t" + p.getNombre());
         }
         System.out.println("Memoria ocupada:\t" + (this.memoria.memoriaTotal - this.memoria.memoriaDisponible));
@@ -92,18 +92,31 @@ public class Administrador {
     }
 
     /**
+     * Muestra las localidades ocupadas por cada proceso.
+     */
+    public void verEstadoMemoria(){
+        System.out.println("\nMemoria:\n");
+    }
+
+
+    /**
      * Imprime en pantalla el nombre de los procesos en espera.
      */
     public void verColaDeProcesos() {
         if (this.colaProcesos.size() != 0) {
             System.out.println("\nProcesos listos:\n");
+            System.out.println("\tId\t\t|\tNombre");
+            System.out.println("\t--------|--------------");
             for (Proceso p : colaProcesos) {
+                System.out.print("\t" + p.getId() + "\t|");
                 if (p == this.colaProcesos.element()) {
-                    System.out.println("\t" + p.getNombre() + " : activo");
+                    System.out.print("\t" + p.getNombre() + " *");
                 } else {
-                    System.out.println("\t" + p.getNombre());
+                    System.out.print("\t" + p.getNombre());
                 }
+                System.out.println("\n\t--------|--------------");
             }
+            System.out.println("\n\t* Proceso activo");
         } else {
             System.out.println("\nNo hay procesos en espera");
         }
@@ -115,25 +128,28 @@ public class Administrador {
      * terminado y libera la memoria
      */
     public void ejecutarProcesoActual() {
-        try {
+        if (this.colaProcesos.size() > 0) {
             Proceso p = this.colaProcesos.poll();
-            int totales = p.getInstTotales();
+            int restantes = p.getInstRestantes();
             int ejecutadas = p.getInstEjecutadas();
-            if (totales < 5) {
-                p.setInstEjecutadas(ejecutadas + totales);
-                p.setInstTotales(totales - totales);
+            if (restantes < 5) {
+                p.setInstEjecutadas(ejecutadas + restantes);
+                p.setInstRestantes(0);
             } else {
                 p.setInstEjecutadas(ejecutadas + 5);
-                p.setInstTotales(totales - 5);
+                p.setInstRestantes(restantes - 5);
             }
-            if (p.getInstTotales() == 0) {
+            System.out.println("\nProceso " + p.getNombre() + " en ejecución");
+            System.out.println(p.getInstEjecutadas()+"/"+p.getInstTotales()+" instrucciones ejecutadas");
+            if (p.getInstRestantes() == 0) {
                 System.out.println("\nProceso " + p.getNombre() + " finalizado con éxito");
+                System.out.println("Se liberaron " + p.getEspacio() + " localidades de memoria");
                 this.memoria.liberarMemoria(p);
                 this.terminadosConExito.add(p);
             } else {
                 this.colaProcesos.add(p);
             }
-        } catch (Exception e) {
+        } else {
             System.out.println("\nNo hay procesos en espera");
         }
     }
@@ -142,14 +158,14 @@ public class Administrador {
      * Imprime en pantalla la información del proceso más próximo a ser ejecutado.
      */
     public void verProcesoActual() {
-        try {
+        if (this.colaProcesos.size() > 0) {
             Proceso p = this.colaProcesos.element();
-            System.out.println("\nNombre:\t" + p.getNombre());
-            System.out.println("Id:\t" + p.getId());
-            System.out.println("Instrucciones totales:\t" + p.getInstTotales());
+            System.out.println("\nId:\t\t\t" + p.getId());
+            System.out.println("Nombre:\t\t" + p.getNombre());
+            System.out.println("\nInstrucciones totales:\t\t" + p.getInstTotales());
             System.out.println("Instrucciones ejecutadas:\t" + p.getInstEjecutadas());
-            System.out.println("Memoria:\t" + p.getEspacio());
-        } catch (Exception e) {
+            System.out.println("\nMemoria utilizada:\t" + p.getEspacio());
+        } else {
             System.out.println("\nNo hay procesos en espera");
         }
     }
@@ -172,13 +188,13 @@ public class Administrador {
      * muestra un mensaje indicando que no hay procesos en espera.
      */
     public void matarProcesoActual() {
-        try {
+        if (this.colaProcesos.size() > 0) {
             Proceso p = this.colaProcesos.poll();
             System.out.println("\nMatando proceso " + p.getNombre());
             System.out.println("Se liberaron " + p.getEspacio() + " localidades de memoria");
             this.memoria.liberarMemoria(p);
             this.procesosEliminados.add(p);
-        } catch (Exception e) {
+        } else {
             System.out.println("\nNo hay procesos en espera");
         }
     }
@@ -191,7 +207,7 @@ public class Administrador {
         for (Proceso p : colaProcesos) {
             System.out.println("Nombre:\t" + p.getNombre());
             System.out.println("Memoria ocupada:\t" + p.getEspacio());
-            System.out.println("---");
+            System.out.println();
         }
     }
 

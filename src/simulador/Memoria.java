@@ -1,5 +1,7 @@
 package simulador;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Clase encargada de simular el manejo de memoria.
  *
@@ -22,7 +24,7 @@ public class Memoria {
      * disponible.
      */
     public Memoria() {
-        this.memoriaTotal = 2048;
+        this.memoriaTotal = 512;
         this.memoriaDisponible = this.memoriaTotal;
     }
 
@@ -49,7 +51,7 @@ public class Memoria {
      *
      * @param p Proceso actual.
      */
-    public void liberarMemoria(Proceso p) {
+    public void liberarMemoria(@NotNull Proceso p) {
         this.memoriaDisponible += p.getEspacio();
     }
 

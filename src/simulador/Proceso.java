@@ -11,6 +11,7 @@ public class Proceso {
     private int espacio;
     private String nombre;
     private int instTotales;
+    private int instRestantes;
     private int instEjecutadas;
 
     public Proceso(String nombre, int id, int espacio) {
@@ -18,6 +19,7 @@ public class Proceso {
         this.id = id;
         this.espacio = espacio;
         this.instTotales = (int) (Math.random() * 20) + 10;
+        this.instRestantes = this.instTotales;
         this.instEjecutadas = 0;
     }
 
@@ -37,8 +39,12 @@ public class Proceso {
         return instTotales;
     }
 
-    public void setInstTotales(int instTotales) {
-        this.instTotales = instTotales;
+    public int getInstRestantes() {
+        return instRestantes;
+    }
+
+    public void setInstRestantes(int instRestantes) {
+        this.instRestantes = instRestantes;
     }
 
     public int getInstEjecutadas() {
