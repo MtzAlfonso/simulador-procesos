@@ -13,11 +13,12 @@ public class Memoria {
     /**
      * Memoria total, su valor no cambiará a lo largo de la ejecución.
      */
-    public final int memoriaTotal;
+    public int memoriaTotal;
     /**
      * Variable que nos indica la cantidad de memoria que tenemos disponible para crear nuevos procesos.
      */
     public int memoriaDisponible;
+    public Localidad[] tablaMemoria;
 
     /**
      * Al intanciarse se declara el valor fijo de la memoria total y se hace una copia en la variable de memoria
@@ -26,6 +27,11 @@ public class Memoria {
     public Memoria() {
         this.memoriaTotal = 512;
         this.memoriaDisponible = this.memoriaTotal;
+        this.tablaMemoria = new Localidad[this.memoriaTotal];
+        for (int i = 0; i < this.memoriaTotal; i++) {
+            Localidad l = new Localidad();
+            this.tablaMemoria[i] = l;
+        }
     }
 
     /**
@@ -51,8 +57,16 @@ public class Memoria {
      *
      * @param p Proceso actual.
      */
-    public void liberarMemoria(@NotNull Proceso p) {
+    public void liberarMemoria(Proceso p) {
         this.memoriaDisponible += p.getEspacio();
+        for (int i = p.getInicio(); i < p.getFin(); i++) {
+            this.tablaMemoria[i].contenido = 0;
+        }
     }
 
+    public void llenarMemoria(Proceso p) {
+        for (int i = p.getInicio(); i < p.getFin(); i++) {
+            this.tablaMemoria[i].contenido = p.getId();
+        }
+    }
 }

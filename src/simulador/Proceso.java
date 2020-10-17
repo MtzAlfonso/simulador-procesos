@@ -13,6 +13,8 @@ public class Proceso {
     private int instTotales;
     private int instRestantes;
     private int instEjecutadas;
+    private int inicio;
+    private int fin;
 
     public Proceso(String nombre, int id, int espacio) {
         this.nombre = nombre;
@@ -21,6 +23,17 @@ public class Proceso {
         this.instTotales = (int) (Math.random() * 20) + 10;
         this.instRestantes = this.instTotales;
         this.instEjecutadas = 0;
+    }
+
+    public Proceso(String nombre, int id, int espacio, int inicio, int fin) {
+        this.nombre = nombre;
+        this.id = id;
+        this.espacio = espacio;
+        this.instTotales = (int) (Math.random() * 20) + 10;
+        this.instRestantes = this.instTotales;
+        this.instEjecutadas = 0;
+        this.inicio = inicio;
+        this.fin = fin;
     }
 
     public int getId() {
@@ -53,5 +66,13 @@ public class Proceso {
 
     public void setInstEjecutadas(int instEjecutadas) {
         this.instEjecutadas = instEjecutadas;
+    }
+
+    public int getInicio() {
+        return inicio;
+    }
+
+    public int getFin() {
+        return fin;
     }
 }

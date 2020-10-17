@@ -19,7 +19,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         int op = 0;
 
-        while (op != 8) {
+        while (op != 9) {
             System.out.println();
             System.out.println("1: Crear nuevo proceso");
             System.out.println("2: Ver estado actual del sistema");
@@ -44,7 +44,7 @@ public class Main {
                     admin.verEstadoActual();
                     break;
                 case 3:
-
+                    admin.verEstadoMemoria();
                     break;
                 case 4:
                     admin.verColaDeProcesos();
