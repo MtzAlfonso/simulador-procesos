@@ -1,12 +1,10 @@
 package simulador;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
- * Clase encargada de simular el manejo de memoria.
+ * Clase que simula la memoria y sus operaciones.
  *
  * @author J Alfonso Martinez Baeza
- * @version 1.0.10102020
+ * @version 2.1.17102020
  */
 public class Memoria {
 
@@ -18,14 +16,17 @@ public class Memoria {
      * Variable que nos indica la cantidad de memoria que tenemos disponible para crear nuevos procesos.
      */
     public int memoriaDisponible;
+    /**
+     * Arreglo que simula las localidades de memoria.
+     */
     public Localidad[] tablaMemoria;
 
     /**
      * Al intanciarse se declara el valor fijo de la memoria total y se hace una copia en la variable de memoria
-     * disponible.
+     * disponible, tambien se llena la tabla de memoria con instancias de la clase Localidad.
      */
     public Memoria() {
-        this.memoriaTotal = 512;
+        this.memoriaTotal = 2048;
         this.memoriaDisponible = this.memoriaTotal;
         this.tablaMemoria = new Localidad[this.memoriaTotal];
         for (int i = 0; i < this.memoriaTotal; i++) {
@@ -52,21 +53,28 @@ public class Memoria {
     }
 
     /**
-     * Recibe el Proceso actual y se encarga de reasignar a la memoria principal el espacio utilizado una vez que el
-     * proceso finaliza.
+     * Se encarga de reasignar a la memoria principal el espacio utilizado una vez que el proceso finaliza, marca las
+     * localidades como disponibles y cambia su contenido a una cadena vacía.
      *
      * @param p Proceso actual.
      */
     public void liberarMemoria(Proceso p) {
         this.memoriaDisponible += p.getEspacio();
         for (int i = p.getInicio(); i < p.getFin(); i++) {
-            this.tablaMemoria[i].contenido = 0;
+            this.tablaMemoria[i].contenido = "";
+            this.tablaMemoria[i].setOcupada(false);
         }
     }
 
+    /**
+     * Se encarga de colocar una "X" en el contenido de la localidad y marca las localidades como ocupadas.
+     *
+     * @param p Proceso actual.
+     */
     public void llenarMemoria(Proceso p) {
         for (int i = p.getInicio(); i < p.getFin(); i++) {
-            this.tablaMemoria[i].contenido = p.getId();
+            this.tablaMemoria[i].contenido = "X";
+            this.tablaMemoria[i].setOcupada(true);
         }
     }
 }

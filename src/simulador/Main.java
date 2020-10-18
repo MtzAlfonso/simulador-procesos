@@ -3,10 +3,10 @@ package simulador;
 import java.util.*;
 
 /**
- * Programa que simula la ejecución de procesos en un sistema operativo.
+ * Clase que simula la ejecución de procesos en un sistema operativo.
  *
  * @author J Alfonso Martinez Baeza
- * @version 1.0.10102020
+ * @version 2.1.17102020
  */
 public class Main {
 
@@ -30,10 +30,11 @@ public class Main {
             System.out.println("7: Pasar al proceso siguiente");
             System.out.println("8: Matar proceso actual");
             System.out.println("9: Matar todo y terminar");
-            System.out.print(">> ");
+            System.out.print("> ");
             try{
                 op = sc.nextInt();
             }catch (InputMismatchException e){
+                op = 0;
                 sc.next();
             }
             switch (op) {
