@@ -159,8 +159,7 @@ public class Administrador {
         for (Proceso p : procesosEliminados) {
             System.out.print("\n\t" + p.getNombre());
         }
-        System.out.printf("\nMemoria ocupada: %11d", (this.memoria.memoriaTotal - this.memoria.memoriaDisponible));
-        System.out.printf("\nMemoria disponible: %8d\n", this.memoria.memoriaDisponible);
+        System.out.println();
     }
 
     /**
@@ -178,7 +177,9 @@ public class Administrador {
             System.out.printf("%4d ", i + 1);
             System.out.printf("[%1s] ", this.memoria.tablaMemoria[i].contenido);
         }
-        System.out.println("\n\nLocalidades ocupadas por procesos:");
+        System.out.printf("\n\nMemoria ocupada: %11d", (this.memoria.memoriaTotal - this.memoria.memoriaDisponible));
+        System.out.printf("\nMemoria disponible: %8d\n", this.memoria.memoriaDisponible);
+        System.out.println("\nLocalidades ocupadas por procesos:");
         System.out.printf("\nProceso         | Inicio |  Fin  | Memoria utilizada");
         System.out.printf("\n----------------|--------|-------|-------------------");
         for (Proceso p : this.colaProcesos) {
@@ -233,6 +234,7 @@ public class Administrador {
             System.out.println(p.getInstEjecutadas() + "/" + p.getInstTotales() + " instrucciones ejecutadas");
             if (p.getInstRestantes() == 0) {
                 System.out.println("\nProceso " + p.getNombre() + " finalizado con éxito");
+                System.out.println("Localidades liberadas: [" + (p.getInicio() + 1) + " - " + p.getFin() + "]");
                 System.out.println("Se liberaron " + p.getEspacio() + " localidades de memoria");
                 this.memoria.liberarMemoria(p);
                 this.actual = p.getInicio();
@@ -287,6 +289,7 @@ public class Administrador {
         if (this.colaProcesos.size() > 0) {
             Proceso p = this.colaProcesos.poll();
             System.out.println("\nMatando proceso " + p.getNombre());
+            System.out.println("Localidades liberadas: [" + (p.getInicio() + 1) + " - " + p.getFin() + "]");
             System.out.println("Se liberaron " + p.getEspacio() + " localidades de memoria");
             this.memoria.liberarMemoria(p);
             this.actual = p.getInicio();
