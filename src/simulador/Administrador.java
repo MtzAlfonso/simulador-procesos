@@ -39,7 +39,7 @@ public class Administrador {
     /**
      * Variable para verificar si un proceso puede crearse.
      */
-    private boolean sePuedeCrearProceso;
+    private boolean esContigua;
 
     /**
      * Constructor de la clase Administrador.
@@ -49,9 +49,9 @@ public class Administrador {
         colaProcesos = new LinkedList<>();
         terminadosCorrectamente = new ArrayList<>();
         procesosEliminados = new ArrayList<>();
-        memoria = new Memoria();
+        memoria = new Memoria(2048);
         actual = 0;
-        sePuedeCrearProceso = true;
+        esContigua = true;
     }
 
     /**
@@ -65,34 +65,34 @@ public class Administrador {
         int n = memoria.asignarMemoria((int) (Math.random() * 4));
 
         if (memoria.memoriaDisponible >= n) {
-            if (actual + 1 >= memoria.getTablaMemoria().length) {
+            // Ciclo para buscar localidades vacías.
+            if(actual == memoria.getTablaMemoria().length ){
                 actual = 0;
             }
-            // Ciclo para buscar localidades vacías.
             while (!sePuedeCrear(actual, actual + n)) {
                 // Es necesario un condicional para poder salir del ciclo en caso de que haya memoria suficiente pero
                 // no sea contigua, ya que de ser así, entraríamos en un loop infinito.
                 if (memoria.getTablaMemoria()[actual].isVisitada()) {
-                    // Antes de salir del ciclo volvemos a marcar las localidades como NO visitadas para poder
-                    // visitarlas posteriormente.
-                    for (Localidad loc : memoria.getTablaMemoria()) {
-                        loc.setVisitada(false);
-                    }
                     // Guardamos un indicador de que el proceso no puede crearse
-                    sePuedeCrearProceso = false;
+                    esContigua = false;
                     break;
                 }
                 // En cada vuelta marcamos como visitada la localidad actual.
                 memoria.getTablaMemoria()[actual].setVisitada(true);
                 // Avanzamos un espacio mientras no estemos en la ultima localidad, pues de ser así regresaremos a la
                 // posición 0 del arreglo de memoria.
-                if (actual + 1 < memoria.getTablaMemoria().length) {
+                if (actual + 1 < memoria.getTablaMemoria().length - 1) {
                     actual++;
                 } else {
                     actual = 0;
                 }
             }
-            if (sePuedeCrearProceso) {
+            // Antes de salir del ciclo volvemos a marcar las localidades como NO visitadas para poder
+            // visitarlas posteriormente.
+            for (Localidad loc : memoria.getTablaMemoria()) {
+                loc.setVisitada(false);
+            }
+            if (esContigua) {
                 System.out.print("\nNombre del proceso: ");
                 addProcess(new Proceso(sc.next(), id++, n, actual, actual + n));
                 System.out.println("Tamaño:\t" + colorear(n, ANSI_CYAN));
@@ -105,14 +105,14 @@ public class Administrador {
                 System.out.println("Memoria disponible:\t" + colorear(memoria.memoriaDisponible, ANSI_CYAN));
                 System.out.println("\nRecomendaciones:");
                 System.out.println(colorear("*", ANSI_RED) + " Libere memoria ejecutando o matando procesos");
-                sePuedeCrearProceso = true;
+                esContigua = true;
             }
         } else {
             System.out.println(colorear("\nNo hay memoria suficiente", ANSI_RED));
             System.out.println("Memoria requerida:\t" + colorear(n, ANSI_CYAN));
             System.out.println("Memoria disponible:\t" + colorear(memoria.memoriaDisponible, ANSI_CYAN));
             System.out.println("\nRecomendaciones:");
-            if (memoria.memoriaDisponible > 0){
+            if (memoria.memoriaDisponible > 0) {
                 System.out.println(colorear("*", ANSI_RED) + " Intente con un proceso más pequeño ");
             }
             System.out.println(colorear("*", ANSI_RED) + " Libere memoria ejecutando o matando procesos");
@@ -180,7 +180,7 @@ public class Administrador {
                 System.out.println();
             }
             System.out.printf("%4d ", i + 1);
-            if (memoria.getTablaMemoria()[i].getContenido() == 'X') {
+            if (memoria.getTablaMemoria()[i].getContenido() == 'o') {
                 System.out.printf("[" + ANSI_RED + "%1c" + ANSI_RESET + "] ", memoria.getTablaMemoria()[i].getContenido());
             } else {
                 System.out.printf("[" + ANSI_GREEN + "%1c" + ANSI_RESET + "] ", memoria.getTablaMemoria()[i].getContenido());
@@ -264,8 +264,10 @@ public class Administrador {
             Proceso p = colaProcesos.element();
             System.out.printf("\nId:" + ANSI_YELLOW + "%34d" + ANSI_RESET, p.getId());
             System.out.printf("\nNombre:" + ANSI_GREEN + "%30s" + ANSI_RESET, p.getNombre());
+            System.out.println();
             System.out.printf("\nInstrucciones totales:" + ANSI_CYAN + "%15d" + ANSI_RESET, p.getInstTotales());
             System.out.printf("\nInstrucciones ejecutadas:" + ANSI_CYAN + "%12d" + ANSI_RESET, p.getInstEjecutadas());
+            System.out.println();
             System.out.printf("\nMemoria utilizada:" + ANSI_CYAN + "%19d" + ANSI_RESET, p.getEspacio());
             System.out.printf("\nLocalidad inicial:" + ANSI_CYAN + "%19d" + ANSI_RESET, p.getInicio() + 1);
             System.out.printf("\nLocalidad final:" + ANSI_CYAN + "%21d" + ANSI_RESET, p.getFin());
@@ -281,10 +283,10 @@ public class Administrador {
     public void omitirProcesoActual() {
         if (colaProcesos.size() != 0) {
             Proceso p = colaProcesos.poll();
-            System.out.println("\nOmitiendo proceso " + colorear(p.getNombre(),ANSI_PURPLE));
+            System.out.println("\nOmitiendo proceso " + colorear(p.getNombre(), ANSI_PURPLE));
             colaProcesos.add(p);
             Proceso q = colaProcesos.element();
-            System.out.println("Proceso " + colorear(q.getNombre(),ANSI_GREEN) + " listo para ejecutarse");
+            System.out.println("Proceso " + colorear(q.getNombre(), ANSI_GREEN) + " listo para ejecutarse");
         } else {
             System.out.println("\nNo hay procesos en espera");
         }
@@ -298,6 +300,7 @@ public class Administrador {
         if (colaProcesos.size() > 0) {
             Proceso p = colaProcesos.poll();
             System.out.println("\nMatando proceso " + colorear(p.getNombre(), ANSI_GREEN));
+            System.out.println(colorear(p.getInstTotales() - p.getInstEjecutadas(), ANSI_CYAN) + " instrucciones sin ejecutar");
             System.out.println("Se liberaron " + colorear(p.getEspacio(), ANSI_CYAN) + " localidades de memoria");
             System.out.println("Localidades liberadas: [" + colorear((p.getInicio() + 1), ANSI_CYAN) + " - "
                     + colorear(p.getFin(), ANSI_CYAN) + "]");

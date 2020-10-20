@@ -1,6 +1,7 @@
 package simulador;
 
 import java.util.*;
+import static colores.Colores.*;
 
 /**
  * Clase que simula la ejecución de procesos en un sistema operativo.
@@ -29,7 +30,7 @@ public class Principal {
             System.out.println("7: Pasar al proceso siguiente");
             System.out.println("8: Matar proceso actual");
             System.out.println("9: Matar todo y terminar");
-            System.out.print("> ");
+            System.out.print(colorear("> ",ANSI_YELLOW));
             try{
                 op = sc.nextInt();
             }catch (InputMismatchException e){
