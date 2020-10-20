@@ -1,8 +1,8 @@
-## Simulador de ejecución de procesos
+## Simulador de la ejecución de procesos en un sistema operativo
 
 ![Captura 1.1](screenshots/1_1.png)
 
-Al crear un proceso nos indica la cantidad de memoria que ocupa asi como las localidades de memoria en las que se posiciona.
+Al crear un proceso nos indica la cantidad de memoria que ocupa así como las localidades de memoria en las que se posiciona.
 
 ![Captura 1.2](screenshots/1_2.png)
 
@@ -49,7 +49,7 @@ Ejemplo 2 (Ejecutando instrucciones y finalizando proceso):
 
 ![Captura 5.2](screenshots/5_2.png)
 
-Se ejecutan 5 instrucciones del proceso, si aun quedan instrucciones el proceso se mueve al final de la cola pero si el numero de instrucciones llega a 0 entonces se liberan las localidades de memoria utilizadas por dicho proceso.
+Se ejecutan 5 instrucciones del proceso, si aún quedan instrucciones el proceso se mueve al final de la cola pero si el numero de instrucciones llega a 0 entonces se liberan las localidades de memoria utilizadas por dicho proceso.
 
 ---
 

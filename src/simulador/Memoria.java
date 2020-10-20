@@ -3,35 +3,35 @@ package simulador;
 /**
  * Clase que simula la memoria y sus operaciones.
  *
- * @author J Alfonso Martinez Baeza
- * @version 2.1.17102020
+ * @author J Alfonso Martínez Baeza
+ * @version 2.1.19102020
  */
 public class Memoria {
 
     /**
      * Memoria total, su valor no cambiará a lo largo de la ejecución.
      */
-    public int memoriaTotal;
+    protected int memoriaTotal;
     /**
      * Variable que nos indica la cantidad de memoria que tenemos disponible para crear nuevos procesos.
      */
-    public int memoriaDisponible;
+    protected int memoriaDisponible;
     /**
      * Arreglo que simula las localidades de memoria.
      */
-    public Localidad[] tablaMemoria;
+    private final Localidad[] tablaMemoria;
 
     /**
-     * Al intanciarse se declara el valor fijo de la memoria total y se hace una copia en la variable de memoria
-     * disponible, tambien se llena la tabla de memoria con instancias de la clase Localidad.
+     * Al crearse se declara el valor fijo de la memoria total y se hace una copia en la variable de memoria
+     * disponible, también se llena la tabla de memoria con instancias de la clase Localidad.
      */
     public Memoria() {
-        this.memoriaTotal = 2048;
-        this.memoriaDisponible = this.memoriaTotal;
-        this.tablaMemoria = new Localidad[this.memoriaTotal];
-        for (int i = 0; i < this.memoriaTotal; i++) {
-            Localidad l = new Localidad();
-            this.tablaMemoria[i] = l;
+        memoriaTotal = 2048;
+        memoriaDisponible = memoriaTotal;
+        tablaMemoria = new Localidad[memoriaTotal];
+        for (int i = 0; i < memoriaTotal; i++) {
+            Localidad loc = new Localidad();
+            tablaMemoria[i] = loc;
         }
     }
 
@@ -40,16 +40,15 @@ public class Memoria {
      *
      * @param n variable de tipo entero que servirá de switch para elegir de manera aleatoria la cantidad de memoria
      *          que ocupará cada proceso.
-     * @return regresa 16, 32, 64 o 128 en funcion del parámetro recibido.
+     * @return regresa 16, 32, 64 o 128 en función del parámetro recibido.
      */
     public int asignarMemoria(int n) {
-        int num = switch (n) {
+        return switch (n) {
             case 0 -> 16;
             case 1 -> 32;
             case 2 -> 64;
             default -> 128;
         };
-        return num;
     }
 
     /**
@@ -59,10 +58,10 @@ public class Memoria {
      * @param p Proceso actual.
      */
     public void liberarMemoria(Proceso p) {
-        this.memoriaDisponible += p.getEspacio();
+        memoriaDisponible += p.getEspacio();
         for (int i = p.getInicio(); i < p.getFin(); i++) {
-            this.tablaMemoria[i].contenido = "";
-            this.tablaMemoria[i].setOcupada(false);
+            tablaMemoria[i].setContenido("");
+            tablaMemoria[i].setOcupada(false);
         }
     }
 
@@ -73,8 +72,17 @@ public class Memoria {
      */
     public void llenarMemoria(Proceso p) {
         for (int i = p.getInicio(); i < p.getFin(); i++) {
-            this.tablaMemoria[i].contenido = "X";
-            this.tablaMemoria[i].setOcupada(true);
+            tablaMemoria[i].setContenido("X");
+            tablaMemoria[i].setOcupada(true);
         }
+    }
+
+    /**
+     * Método getter del arreglo de localidades de memoria.
+     *
+     * @return Devuelve el arreglo de localidades.
+     */
+    public Localidad[] getTablaMemoria() {
+        return tablaMemoria;
     }
 }

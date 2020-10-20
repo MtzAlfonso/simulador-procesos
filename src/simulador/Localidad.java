@@ -3,8 +3,8 @@ package simulador;
 /**
  * Clase que simula una localidad de memoria.
  *
- * @author J Alfonso Martinez Baeza
- * @version 1.0.17102020
+ * @author J Alfonso Martínez Baeza
+ * @version 1.0.19102020
  */
 public class Localidad {
     /**
@@ -18,15 +18,15 @@ public class Localidad {
     /**
      * Guarda una "X" si la localidad está ocupada y una cadena vacía en caso contrario.
      */
-    public String contenido;
+    private String contenido;
 
     /**
-     * Cada nueva localidad se inicializa como no visitada, no ocupada y sin ningun contenido.
+     * Cada nueva localidad se inicializa como no visitada, no ocupada y sin ningún contenido.
      */
     public Localidad(){
-        this.visitada = false;
-        this.ocupada = false;
-        this.contenido = "";
+        visitada = false;
+        ocupada = false;
+        contenido = "";
     }
 
     /**
@@ -59,5 +59,21 @@ public class Localidad {
      */
     public void setOcupada(boolean ocupada) {
         this.ocupada = ocupada;
+    }
+
+    /**
+     * Método getter del contenido de la localidad de memoria.
+     * @return Devuelve una X si esta ocupada y un espacio en blanco en caso contrario.
+     */
+    public String getContenido() {
+        return contenido;
+    }
+
+    /**
+     * Método setter del contenido de la localidad.
+     * @param contenido Recibe el nuevo contenido de la localidad de memoria.
+     */
+    public void setContenido(String contenido) {
+        this.contenido = contenido;
     }
 }

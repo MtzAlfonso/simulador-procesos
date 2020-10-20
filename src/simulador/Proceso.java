@@ -3,26 +3,26 @@ package simulador;
 /**
  * Clase que simula un proceso.
  *
- * @author J Alfonso Martinez Baeza
- * @version 2.1.17102020
+ * @author J Alfonso Martínez Baeza
+ * @version 2.1.19102020
  */
 public class Proceso {
     /**
      * Id único para cada proceso.
      */
-    private int id;
+    private final int id;
     /**
      * Localidades que ocupa el proceso.
      */
-    private int espacio;
+    private final int espacio;
     /**
      * Nombre del proceso.
      */
-    private String nombre;
+    private final String nombre;
     /**
      * Instrucciones totales que puede ejecutar el proceso.
      */
-    private int instTotales;
+    private final int instTotales;
     /**
      * Variable calculada de las instrucciones que faltan por ejecutar.
      */
@@ -34,11 +34,11 @@ public class Proceso {
     /**
      * Localidad inicial.
      */
-    private int inicio;
+    private final int inicio;
     /**
      * Localidad final.
      */
-    private int fin;
+    private final int fin;
 
     /**
      * Constructor de la clase

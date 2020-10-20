@@ -5,21 +5,20 @@ import java.util.*;
 /**
  * Clase que simula la ejecución de procesos en un sistema operativo.
  *
- * @author J Alfonso Martinez Baeza
- * @version 2.1.17102020
+ * @author J Alfonso Martínez Baeza
+ * @version 2.1.19102020
  */
-public class Main {
+public class Principal {
 
     /**
-     * Funcion principal.
+     * Función principal.
      * @param args Puede recibir argumentos que serán accesibles a través de este arreglo.
      */
     public static void main(String[] args) {
         Administrador admin = new Administrador();
         Scanner sc = new Scanner(System.in);
-        int op = 0;
-
-        while (op != 9) {
+        int op;
+        do {
             System.out.println();
             System.out.println("1: Crear nuevo proceso");
             System.out.println("2: Ver estado actual del sistema");
@@ -38,38 +37,18 @@ public class Main {
                 sc.next();
             }
             switch (op) {
-                case 1:
-                    admin.crearProceso(sc);
-                    break;
-                case 2:
-                    admin.verEstadoActual();
-                    break;
-                case 3:
-                    admin.verEstadoMemoria();
-                    break;
-                case 4:
-                    admin.verColaDeProcesos();
-                    break;
-                case 5:
-                    admin.ejecutarProcesoActual();
-                    break;
-                case 6:
-                    admin.verProcesoActual();
-                    break;
-                case 7:
-                    admin.omitirProcesoActual();
-                    break;
-                case 8:
-                    admin.matarProcesoActual();
-                    break;
-                case 9:
-                    admin.matarTodoYTerminar();
-                    break;
-                default:
-                    System.out.println("\nIngrese una opción válida");
-                    break;
+                case 1 -> admin.crearProceso(sc);
+                case 2 -> admin.verEstadoActual();
+                case 3 -> admin.verEstadoMemoria();
+                case 4 -> admin.verColaDeProcesos();
+                case 5 -> admin.ejecutarProcesoActual();
+                case 6 -> admin.verProcesoActual();
+                case 7 -> admin.omitirProcesoActual();
+                case 8 -> admin.matarProcesoActual();
+                case 9 -> admin.matarTodoYTerminar();
+                default -> System.out.println("\nIngrese una opción válida");
             }
-        }
+        } while (op != 9);
     }
 
 }
