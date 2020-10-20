@@ -6,7 +6,7 @@ import java.util.*;
  * Clase que simula la ejecución de procesos en un sistema operativo.
  *
  * @author J Alfonso Martínez Baeza
- * @version 2.1.19102020
+ * @version 2.2.20102020
  */
 public class Principal {
 

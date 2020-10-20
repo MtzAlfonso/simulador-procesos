@@ -18,7 +18,7 @@ public class Localidad {
     /**
      * Guarda una "X" si la localidad está ocupada y una cadena vacía en caso contrario.
      */
-    private String contenido;
+    private char contenido;
 
     /**
      * Cada nueva localidad se inicializa como no visitada, no ocupada y sin ningún contenido.
@@ -26,7 +26,7 @@ public class Localidad {
     public Localidad(){
         visitada = false;
         ocupada = false;
-        contenido = "";
+        contenido = '-';
     }
 
     /**
@@ -65,7 +65,7 @@ public class Localidad {
      * Método getter del contenido de la localidad de memoria.
      * @return Devuelve una X si esta ocupada y un espacio en blanco en caso contrario.
      */
-    public String getContenido() {
+    public char getContenido() {
         return contenido;
     }
 
@@ -73,7 +73,7 @@ public class Localidad {
      * Método setter del contenido de la localidad.
      * @param contenido Recibe el nuevo contenido de la localidad de memoria.
      */
-    public void setContenido(String contenido) {
+    public void setContenido(char contenido) {
         this.contenido = contenido;
     }
 }

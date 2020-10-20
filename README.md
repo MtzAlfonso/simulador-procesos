@@ -12,6 +12,8 @@ Si al momento de crear un proceso no hay localidades contiguas de memoria sufici
 
 También se muestra un mensaje en caso de que no haya la memoria suficiente para crear el proceso, con la información de la memoria disponible y recomendaciones para continuar con el programa.
 
+![Captura 1.4](screenshots/1_4.png)
+
 ---
 
 Ejemplo 1 (listas de procesos vacías):

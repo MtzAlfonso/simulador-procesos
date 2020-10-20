@@ -4,14 +4,14 @@ package simulador;
  * Clase que simula la memoria y sus operaciones.
  *
  * @author J Alfonso Martínez Baeza
- * @version 2.1.19102020
+ * @version 2.2.20102020
  */
 public class Memoria {
 
     /**
      * Memoria total, su valor no cambiará a lo largo de la ejecución.
      */
-    protected int memoriaTotal;
+    protected final int memoriaTotal;
     /**
      * Variable que nos indica la cantidad de memoria que tenemos disponible para crear nuevos procesos.
      */
@@ -60,7 +60,7 @@ public class Memoria {
     public void liberarMemoria(Proceso p) {
         memoriaDisponible += p.getEspacio();
         for (int i = p.getInicio(); i < p.getFin(); i++) {
-            tablaMemoria[i].setContenido("");
+            tablaMemoria[i].setContenido('-');
             tablaMemoria[i].setOcupada(false);
         }
     }
@@ -72,7 +72,7 @@ public class Memoria {
      */
     public void llenarMemoria(Proceso p) {
         for (int i = p.getInicio(); i < p.getFin(); i++) {
-            tablaMemoria[i].setContenido("X");
+            tablaMemoria[i].setContenido('X');
             tablaMemoria[i].setOcupada(true);
         }
     }
