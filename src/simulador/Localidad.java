@@ -19,6 +19,7 @@ public class Localidad {
      * Guarda una "X" si la localidad está ocupada y una cadena vacía en caso contrario.
      */
     private char contenido;
+    private int id;
 
     /**
      * Cada nueva localidad se inicializa como no visitada, no ocupada y sin ningún contenido.
@@ -27,6 +28,7 @@ public class Localidad {
         visitada = false;
         ocupada = false;
         contenido = '-';
+        id = 0;
     }
 
     /**
@@ -75,5 +77,21 @@ public class Localidad {
      */
     public void setContenido(char contenido) {
         this.contenido = contenido;
+    }
+
+    /**
+     * Método getter del id del proceso que ocupa dicha localidad.
+     * @return Id del proceso que ocupa la localidad
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Método setter del id del procesos que ocupa la localidad.
+     * @param id Id del proceso que ocupará la localidad.
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -22,7 +22,7 @@ public class Memoria {
     private final Localidad[] tablaMemoria;
 
     /**
-     * l crearse se declara el valor fijo de la memoria total y se hace una copia en la variable de memoria
+     * Al crearse se declara el valor fijo de la memoria total y se hace una copia en la variable de memoria
      * disponible, también se llena la tabla de memoria con instancias de la clase Localidad.
      * @param memoria Memoria total.
      */
@@ -63,6 +63,7 @@ public class Memoria {
         for (int i = p.getInicio(); i < p.getFin(); i++) {
             tablaMemoria[i].setOcupada(false);
             tablaMemoria[i].setContenido('-');
+            tablaMemoria[i].setId(0);
         }
     }
 
@@ -75,6 +76,7 @@ public class Memoria {
         for (int i = p.getInicio(); i < p.getFin(); i++) {
             tablaMemoria[i].setOcupada(true);
             tablaMemoria[i].setContenido('o');
+            tablaMemoria[i].setId(p.getId());
         }
     }
 

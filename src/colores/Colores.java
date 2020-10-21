@@ -35,12 +35,12 @@ public class Colores {
     /**
      * Recibe una cadena de texto y el código de color y devuelve la cadena coloreada.
      *
-     * @param palabra Cadena
+     * @param cadena Cadena de texto
      * @param color   Código de color
      * @return Cadena coloreada
      */
-    public static String colorear(String palabra, String color) {
-        return (color + palabra + ANSI_RESET);
+    public static String colorear(String cadena, String color) {
+        return (color + cadena + ANSI_RESET);
     }
 
     /**

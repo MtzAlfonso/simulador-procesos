@@ -63,10 +63,9 @@ public class Administrador {
      */
     public void crearProceso(Scanner sc) {
         int n = memoria.asignarMemoria((int) (Math.random() * 4));
-
         if (memoria.memoriaDisponible >= n) {
             // Ciclo para buscar localidades vacías.
-            if(actual == memoria.getTablaMemoria().length ){
+            if (actual == memoria.getTablaMemoria().length) {
                 actual = 0;
             }
             while (!sePuedeCrear(actual, actual + n)) {
@@ -96,8 +95,8 @@ public class Administrador {
                 System.out.print("\nNombre del proceso: ");
                 addProcess(new Proceso(sc.next(), id++, n, actual, actual + n));
                 System.out.println("Tamaño:\t" + colorear(n, ANSI_CYAN));
-                System.out.println("Localidades: [" + colorear((actual + 1), ANSI_CYAN) + " - "
-                        + colorear((actual + n), ANSI_CYAN) + "]");
+                System.out.println("Localidades: [" + colorear(decToHex(actual + 1), ANSI_CYAN) + " - "
+                        + colorear(decToHex(actual + n), ANSI_CYAN) + "]");
                 actual += n;
             } else {
                 System.out.println(colorear("\nNo hay memoria contigua", ANSI_YELLOW));
@@ -155,12 +154,15 @@ public class Administrador {
      * Imprime en pantalla la información de los procesos listos.
      */
     public void verEstadoActual() {
-        System.out.printf("\nProcesos en espera de ser ejecutados: " + ANSI_CYAN + "%6d" + ANSI_RESET, colaProcesos.size());
-        System.out.printf("\nProcesos terminados exitosamente: " + ANSI_CYAN + "%10d" + ANSI_RESET, terminadosCorrectamente.size());
+        System.out.printf("\nProcesos en espera de ser ejecutados: "
+                + ANSI_CYAN + "%6d" + ANSI_RESET, colaProcesos.size());
+        System.out.printf("\nProcesos terminados exitosamente: "
+                + ANSI_CYAN + "%10d" + ANSI_RESET, terminadosCorrectamente.size());
         for (Proceso p : terminadosCorrectamente) {
             System.out.print("\n\t" + p.getNombre());
         }
-        System.out.printf("\nProcesos terminados antes de tiempo: " + ANSI_CYAN + "%7d" + ANSI_RESET, procesosEliminados.size());
+        System.out.printf("\nProcesos terminados antes de tiempo: "
+                + ANSI_CYAN + "%7d" + ANSI_RESET, procesosEliminados.size());
         for (Proceso p : procesosEliminados) {
             System.out.print("\n\t" + p.getNombre());
         }
@@ -179,7 +181,7 @@ public class Administrador {
             if (i % 16 == 0) {
                 System.out.println();
             }
-            System.out.printf("%4d ", i + 1);
+            System.out.printf("%-6s", decToHex(i + 1));
             if (memoria.getTablaMemoria()[i].getContenido() == 'o') {
                 System.out.printf("[" + ANSI_RED + "%1c" + ANSI_RESET + "] ", memoria.getTablaMemoria()[i].getContenido());
             } else {
@@ -192,7 +194,7 @@ public class Administrador {
         System.out.print("\nProceso         | Inicio |  Fin  | Memoria utilizada");
         System.out.print("\n----------------|--------|-------|-------------------");
         for (Proceso p : colaProcesos) {
-            System.out.printf("\n%-15s | %6d | %5d |  %8d ", p.getNombre(), p.getInicio() + 1, p.getFin(), p.getEspacio());
+            System.out.printf("\n%-15s |  %-5s | %-5s |  %8d ", p.getNombre(), decToHex(p.getInicio() + 1), decToHex(p.getFin()), p.getEspacio());
         }
         System.out.println();
     }
@@ -243,8 +245,8 @@ public class Administrador {
             if (p.getInstRestantes() == 0) {
                 System.out.println("\nProceso " + colorear(p.getNombre(), ANSI_GREEN) + " finalizado con éxito");
                 System.out.println("Se liberaron " + colorear(p.getEspacio(), ANSI_CYAN) + " localidades de memoria");
-                System.out.println("Localidades liberadas: [" + colorear((p.getInicio() + 1), ANSI_CYAN) + " - "
-                        + colorear(p.getFin(), ANSI_CYAN) + "]");
+                System.out.println("Localidades liberadas: [" + colorear(decToHex(p.getInicio() + 1), ANSI_CYAN)
+                        + " - " + colorear(decToHex(p.getFin()), ANSI_CYAN) + "]");
                 memoria.liberarMemoria(p);
                 actual = p.getInicio();
                 terminadosCorrectamente.add(p);
@@ -269,8 +271,8 @@ public class Administrador {
             System.out.printf("\nInstrucciones ejecutadas:" + ANSI_CYAN + "%12d" + ANSI_RESET, p.getInstEjecutadas());
             System.out.println();
             System.out.printf("\nMemoria utilizada:" + ANSI_CYAN + "%19d" + ANSI_RESET, p.getEspacio());
-            System.out.printf("\nLocalidad inicial:" + ANSI_CYAN + "%19d" + ANSI_RESET, p.getInicio() + 1);
-            System.out.printf("\nLocalidad final:" + ANSI_CYAN + "%21d" + ANSI_RESET, p.getFin());
+            System.out.printf("\nLocalidad inicial:" + ANSI_CYAN + "%19s" + ANSI_RESET, decToHex(p.getInicio() + 1));
+            System.out.printf("\nLocalidad final:" + ANSI_CYAN + "%21s" + ANSI_RESET, decToHex(p.getFin()));
             System.out.println();
         } else {
             System.out.println("\nNo hay procesos en espera");
@@ -300,10 +302,11 @@ public class Administrador {
         if (colaProcesos.size() > 0) {
             Proceso p = colaProcesos.poll();
             System.out.println("\nMatando proceso " + colorear(p.getNombre(), ANSI_GREEN));
-            System.out.println(colorear(p.getInstTotales() - p.getInstEjecutadas(), ANSI_CYAN) + " instrucciones sin ejecutar");
+            System.out.println(colorear(p.getInstTotales() - p.getInstEjecutadas(), ANSI_CYAN)
+                    + " instrucciones sin ejecutar");
             System.out.println("Se liberaron " + colorear(p.getEspacio(), ANSI_CYAN) + " localidades de memoria");
-            System.out.println("Localidades liberadas: [" + colorear((p.getInicio() + 1), ANSI_CYAN) + " - "
-                    + colorear(p.getFin(), ANSI_CYAN) + "]");
+            System.out.println("Localidades liberadas: [" + colorear(decToHex(p.getInicio() + 1), ANSI_CYAN) + " - "
+                    + colorear(decToHex(p.getFin()), ANSI_CYAN) + "]");
             memoria.liberarMemoria(p);
             actual = p.getInicio();
             procesosEliminados.add(p);
@@ -320,5 +323,24 @@ public class Administrador {
         while (colaProcesos.size() > 0) {
             matarProcesoActual();
         }
+    }
+
+    private String decToHex(int decimal) {
+        int d = decimal;
+        StringBuilder hexadecimal = new StringBuilder();
+        String caracteresHexadecimales = "0123456789abcdef";
+        while (decimal > 0) {
+            int residuo = decimal % 16;
+            hexadecimal.insert(0, caracteresHexadecimales.charAt(residuo)); // Agregar a la izquierda
+            decimal /= 16;
+        }
+        if (d < 16) {
+            hexadecimal.insert(0, "0x00");
+        } else if (d < 256) {
+            hexadecimal.insert(0, "0x0");
+        } else {
+            hexadecimal.insert(0, "0x");
+        }
+        return hexadecimal.toString();
     }
 }
