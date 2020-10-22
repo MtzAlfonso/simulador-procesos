@@ -49,7 +49,7 @@ public class Administrador {
         colaProcesos = new LinkedList<>();
         terminadosCorrectamente = new ArrayList<>();
         procesosEliminados = new ArrayList<>();
-        memoria = new Memoria(2048);
+        memoria = new Memoria(1024);
         actual = 0;
         esContigua = true;
     }
@@ -103,6 +103,7 @@ public class Administrador {
                 System.out.println("Memoria requerida:\t" + colorear(n, ANSI_CYAN));
                 System.out.println("Memoria disponible:\t" + colorear(memoria.memoriaDisponible, ANSI_CYAN));
                 System.out.println("\nRecomendaciones:");
+                System.out.println(colorear("*", ANSI_RED) + " Intente con un proceso más pequeño ");
                 System.out.println(colorear("*", ANSI_RED) + " Libere memoria ejecutando o matando procesos");
                 esContigua = true;
             }

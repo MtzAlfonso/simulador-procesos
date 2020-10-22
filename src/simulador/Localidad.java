@@ -16,9 +16,12 @@ public class Localidad {
      */
     private boolean ocupada;
     /**
-     * Guarda una "X" si la localidad está ocupada y una cadena vacía en caso contrario.
+     * Guarda una "o" si la localidad está ocupada y un "-" en caso contrario.
      */
     private char contenido;
+    /**
+     * Guarda el id del proceso que ocupa la localidad en cuestión.
+     */
     private int id;
 
     /**

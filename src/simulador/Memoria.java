@@ -68,7 +68,7 @@ public class Memoria {
     }
 
     /**
-     * Se encarga de colocar una "X" en el contenido de la localidad y marca las localidades como ocupadas.
+     * Se encarga de colocar una "o" en el contenido de la localidad y marca las localidades como ocupadas.
      *
      * @param p Proceso actual.
      */
